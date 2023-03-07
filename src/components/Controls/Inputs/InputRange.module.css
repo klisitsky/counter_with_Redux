@@ -1,0 +1,66 @@
+.values {
+  font-size: 40px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 6fr 6fr;
+  grid-template-rows: 6fr 6fr;
+  grid-template-areas: 'l v'
+                       'l v';
+}
+
+.values:last-child {
+  margin-bottom: 0  ;
+}
+
+.desc {
+  grid-area: l;
+}
+
+.setter {
+  grid-area: v;
+}
+
+.inputValue {
+  height: 40px;
+  width: 50px;
+  font-size: 30px;
+  background-color: #434855;
+  color: #d0d0d0;
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.btnChangeValue {
+  height: 42px;
+  width: 40px;
+  font-size: 30px;
+  background-color: #434855;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #d0d0d0;
+}
+.btnChangeValue:hover {
+  background-color: #4e5162;
+}
+
+.btnAdd {
+  border-radius: 0 50% 50% 0;
+}
+.btnSub {
+  border-radius: 50% 0 0 50%;
+}
+
+.red {
+  background-color: #462727;
+}

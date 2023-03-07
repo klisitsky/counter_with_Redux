@@ -1,0 +1,14 @@
+.btnStyle {
+  font-size: 40px;
+  margin-right: 20px;
+  cursor: pointer;
+  background-color: #434855;
+  border-radius: 5px;
+  color: #d0d0d0;
+  border: none;
+  padding: 5px 15px;
+}
+
+.disabled {
+  opacity: 0.5;
+}
