@@ -2,14 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {Counter} from "./Counter";
+import {Provider} from "react-redux";
+import {store} from "./redux/redux-store";
+import CounterContainer from "./CounterContainer";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Counter />
+    <Provider store={store}>
+      <CounterContainer/>
+      </Provider>
   </React.StrictMode>
 );
 
