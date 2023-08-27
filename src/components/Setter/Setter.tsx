@@ -1,41 +1,58 @@
-import React, {useState} from 'react';
+import React, {useCallback} from 'react';
 import s from './Setter.module.css'
-import {ButtonMenu} from "../Controls/Btns/ButtonMenu";
-import {InputRange} from "../Controls/Inputs/InputRange";
+import ButtonMenu from "../Controls/Btns/ButtonMenu";
+import InputRange from "../Controls/Inputs/InputRange/InputRange";
+import {useDispatch} from "react-redux";
+import {setNewCurrentValue, setNewRangeValues, toggleSetStatus} from "../../redux/actions/counterActions";
 
 
 type SetterPropsType = {
-  inputMin: number
-  setInputMin: (value: number) => void
-  inputMax: number
-  setInputMax: (value: number) => void
+  inputMinValue: number
+  setInputMinValue: (value: number) => void
+  inputMaxValue: number
+  setInputMaxValue: (value: number) => void
   isCorrectRange: boolean
-  setNewInputValues: () => void
 }
 
-export const Setter: React.FC<SetterPropsType> = (props) => {
+
+const Setter: React.FC<SetterPropsType> = ({
+                                             inputMinValue,
+                                             setInputMinValue,
+                                             inputMaxValue,
+                                             setInputMaxValue,
+                                             isCorrectRange
+                                           }) => {
+
+  const dispatch = useDispatch()
+
+  const setNewValues = useCallback(() => {
+    dispatch(setNewRangeValues(inputMinValue, inputMaxValue))
+    dispatch(setNewCurrentValue(inputMinValue))
+    dispatch(toggleSetStatus(true))
+  }, [inputMinValue, inputMaxValue, inputMinValue])
 
 
-
-  return (<div  className={s.wrapper}>
+  return (<div className={s.wrapper}>
     <InputRange labelName='Min Value'
                 labelId='min'
-                valueNum={props.inputMin}
-                setValueNum={props.setInputMin}
-                isCorrectRange={props.isCorrectRange}
+                inputValue={inputMinValue}
+                setInputValue={setInputMinValue}
+                isCorrectRange={isCorrectRange}
     />
     <InputRange labelName='Max Value'
                 labelId='max'
-                valueNum={props.inputMax}
-                setValueNum={props.setInputMax}
-                isCorrectRange={props.isCorrectRange}
+                inputValue={inputMaxValue}
+                setInputValue={setInputMaxValue}
+                isCorrectRange={isCorrectRange}
     />
     <ButtonMenu name={'Set'}
-                isDisabled={!props.isCorrectRange}
-                callbackOnclick={props.setNewInputValues}
+                callbackOnclick={setNewValues}
+                isDisabled={!isCorrectRange}
+
     />
-    </div>);
+  </div>);
 };
 
 
+export default React.memo(Setter)
 

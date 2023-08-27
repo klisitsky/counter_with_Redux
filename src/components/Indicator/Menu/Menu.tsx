@@ -1,28 +1,33 @@
 import React from 'react';
-import {ButtonMenu} from '../../Controls/Btns/ButtonMenu'
+import ButtonMenu from '../../Controls/Btns/ButtonMenu'
 import s from './Menu.module.css'
+import {useMenu} from "./hooks/useMenu";
+
 
 type MenuPropsType = {
-  number: number
-  callbackAddValue: () => void
-  callbackResetValue: () => void
   isEndOfCount: boolean
-  newValuesForCounter: boolean
+  inputMinValue: number
+  currentValue: number
+  settedMaxValue: number
 }
 
-export const Menu: React.FC<MenuPropsType> = (props) => {
+const Menu: React.FC<MenuPropsType> = (props) => {
 
-  const isDisabledInc = !props.isEndOfCount || props.newValuesForCounter
-  const isDisabledRes = props.isEndOfCount || props.newValuesForCounter
+  const {
+    resetValue,
+    incrementCurrentValue
+  } = useMenu(props.isEndOfCount, props.inputMinValue, props.currentValue, props.settedMaxValue)
 
   return (<div className={s.menu}>
     <ButtonMenu name={"Inc"}
-                callbackOnclick={props.callbackAddValue}
-                isDisabled={isDisabledInc}
-                />
+                callbackOnclick={incrementCurrentValue}
+                isDisabled={!props.isEndOfCount}
+    />
     <ButtonMenu name={"Res"}
-                callbackOnclick={props.callbackResetValue}
-                isDisabled={isDisabledRes}
-               />
-    </div>);
+                callbackOnclick={resetValue}
+    />
+  </div>);
 };
+
+
+export default React.memo(Menu)

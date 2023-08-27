@@ -1,35 +1,38 @@
 import React from "react";
-import {Menu} from "./Menu/Menu";
-import {Number} from "./Number/Number";
+import Menu from "./Menu/Menu";
 import s from './Indicator.module.css'
+import {useSelector} from "react-redux";
+import {RootStateType} from "../../redux/redux-store";
+import CurrentIndicatorValue from "./CurrentIndicatorValue/CurrentIndicatorValue";
+import {currentValueSelector, settedMaxValueSelector} from "../../redux/selectors/selectors";
 
 type IndicatorPropsType = {
-  number: number
-  maxValueNum: number
-  callbackAddValue:() => void
-  callbackResetValue: () => void
-  isEndOfCount: boolean
-  newValuesForCounter: boolean
   isCorrectRange: boolean
+  inputMinValue: number
 }
 
-export const Indicator: React.FC<IndicatorPropsType> = (props) => {
+const Indicator: React.FC<IndicatorPropsType> = (props) => {
+
+  const currentValue = useSelector<RootStateType, number>(currentValueSelector)
+  const settedMaxValue = useSelector<RootStateType, number>(settedMaxValueSelector)
+
+  const isEndOfCount = currentValue < settedMaxValue
+
 
   return (
     <div className={s.wrapper}>
-      <Number number={props.number}
-              maxValueNum={props.maxValueNum}
-              newValuesForCounter={props.newValuesForCounter}
-              isEndOfCount={props.isEndOfCount}
-              isCorrectRange={props.isCorrectRange}
+      <CurrentIndicatorValue currentValue={currentValue}
+                             isEndOfCount={isEndOfCount}
+                             isCorrectRange={props.isCorrectRange}
       />
-      <Menu number={props.number}
-            callbackAddValue={props.callbackAddValue}
-            callbackResetValue={props.callbackResetValue}
-            isEndOfCount={props.isEndOfCount}
-            newValuesForCounter={props.newValuesForCounter}
+      <Menu isEndOfCount={isEndOfCount}
+            inputMinValue={props.inputMinValue}
+            currentValue={currentValue}
+            settedMaxValue={settedMaxValue}
       />
-
     </div>
   )
 }
+
+
+export default React.memo(Indicator)
